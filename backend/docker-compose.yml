@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  fastapi_server:
+    build:
+      context: ./fastapi_server
+      dockerfile: Dockerfile
+    image: fastapi_server:latest
+    ports:
+      - 8000:8000
+    container_name: fastapi_server
+    environment:
+      PYTHONPATH: .
+    command: python src/main.py
+
+  nest_server:
+    build:
+      context: ./nest_server
+      dockerfile: Dockerfile
+    image: nest_server:latest
+    ports:
+      - 3000:3000
+    container_name: nest
+    depends_on:
+      - fastapi_server
+    command: npm run start
